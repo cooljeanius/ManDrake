@@ -27,3 +27,4 @@ pods
 mdocml
 Releases/*
 *.zip
+.env.local
