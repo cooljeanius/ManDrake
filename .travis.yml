@@ -9,7 +9,7 @@ branches:
 
 before_install:
   - gem install xcpretty # Required by build script
-  - gem install cocoapods # Dependency management
+# (cocoapods should already be installed)
   - pod update # Install dependencies
 
 script:
