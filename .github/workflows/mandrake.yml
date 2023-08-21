@@ -22,6 +22,5 @@ jobs:
         restore-keys: "${{ runner.os }}-pods-"
     - run: gem install xcpretty
     - run: pod update
-    - run: pods install
     - run: cd ManDrake/cat2html && ./build_cat2html.sh
     - run: ./build.sh
