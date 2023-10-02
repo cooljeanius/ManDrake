@@ -15,7 +15,7 @@ jobs:
       with:
         xcode-version: '13.1'
     - name: Set up cocoapods cache
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@v3.3.2
       with:
         path: Pods
         key: "${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}"
