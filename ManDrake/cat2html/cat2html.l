@@ -46,15 +46,15 @@
 
 
     /* Decode a UTF8 sequence to return the unicode number */
-    static unsigned decodeUTF8(unsigned char *buf, yy_size_t len)
+    static unsigned int decodeUTF8(unsigned char *buf, yy_size_t len)
     {
         int n = buf[0] & (0x7f >> len);
         yy_size_t i;
 
-        for (i=1; i<len; i++)
+        for (i = 1; i < len; i++)
             n = (n << 6) | (buf[i] & 0x3f);
 
-        return (unsigned)n;
+        return (unsigned int)n;
     }
 
     static void emitPreamble(void)
@@ -64,7 +64,7 @@
            is using a font that can do those styles. If left alone here,
            NSAttributedString will use Monaco, and the bold/italic information
            is lost forever. */
-        fputs("<html><head></head><body><pre><font face=\"Courier\">",stdout);
+        fputs("<html><head></head><body><pre><font face=\"Courier\">", stdout);
     }
     
     static void emitPostamble(void)
@@ -72,14 +72,14 @@
         fputs("</font></pre>\n</body></html>",stdout);
     }
 
-    #define adjust() if( neededflags!=flags ) _adjust()
+    #define adjust() if (neededflags != flags) _adjust()
     
     static void _adjust(void) {
     
-        if( (flags^neededflags)&ULINEFLAG )
+        if ((flags ^ neededflags) & ULINEFLAG)
             fputs(neededflags&ULINEFLAG?
                 startULine:stopULine,stdout);
-        if( (flags^neededflags)&BOLDFLAG )
+        if ((flags ^ neededflags) & BOLDFLAG)
             fputs(neededflags&BOLDFLAG?
                 startBold:stopBold,stdout);
         flags = neededflags;
@@ -88,7 +88,7 @@
     static void emitChar(int ch) {        
         adjust();
 
-        if (ch=='\n') {
+        if (ch == '\n') {
             if (lineCount > maxLineCount) return;
             lineCount++;
         }
@@ -105,8 +105,8 @@
 
     static void emitString(char *string)
     {
-        int i, len=strlen(string);
-        for (i=0;i<len;i++)
+        int i, len = strlen(string);
+        for (i = 0; i < len; i++)
             emitChar(string[i]);
     }
 
@@ -119,7 +119,7 @@
 
     static void emitBackspacedLetters(char *charblock, yy_size_t lengthLeft, int doBold)
     {
-        /* If there's a trailing backspace, then both letters are deleted, so print nothing */
+        /* If there is/was a trailing backspace, then both letters are deleted, so print nothing */
         if (lengthLeft >= 4 && charblock[3] == '\010')
             return;
 
@@ -133,7 +133,7 @@
         else {
     #ifdef DEBUGBACKSPACE
             fprintf(stderr, "Unknown backspace pair %c and %c\n", charblock[0], charblock[2]);
-    #endif
+    #endif /* DEBUGBACKSPACE */
             emitChar(charblock[2]);
         }
     }
@@ -142,7 +142,7 @@
     {
         yy_size_t i=0;
         while (i < length) {
-            if ((i < (length-1)) && text[i+1] == '\010') {
+            if ((i < (length - 1)) && text[i + 1] == '\010') {
                 emitBackspacedLetters(&text[i], 3, 0);
                 i+=3;
             }
@@ -154,10 +154,10 @@
     }
 
     /* Use hexidecimal entities */
-    static void emitUnicode(unsigned charNum)
+    static void emitUnicode(unsigned int charNum)
     {
         char entityBuf[20];
-        sprintf(entityBuf, "&#x%x;", charNum);
+        snprintf(entityBuf, sizeof(entityBuf), "&#x%x;", charNum);
         emitRaw(entityBuf);
     }
 
@@ -219,11 +219,11 @@ SGRSTART     \x1B\[
             else
             {
                 int i;
-                char href[yyleng+1];
+                char href[yyleng + 1];
 
                 /* Change newlines to spaces in the href portion */
                 strcpy(href, yytext);
-                for(i=0; i<yyleng; i++)
+                for (i = 0; i < (int)yyleng; i++)
                     if (href[i] == '\n') href[i] = ' ';
  
                 emitRaw("<a href=\"manpage:");
@@ -276,7 +276,7 @@ SGRSTART     \x1B\[
     /*
      *    nroff bullets
      */
-o\010"+"               emitRaw("&middot;");   // "&bull;" doesn't work
+o\010"+"               emitRaw("&middot;");   /* "&bull;" doesn't work */
 "+"\010o               emitRaw("&middot;");
 o\010o\010"+"\010"+"   emitRaw("&middot;");
 "+"\010"+\010"o\010o   emitRaw("&middot;");
@@ -301,10 +301,10 @@ _\010{ALLBUTUL}        {
 
   /* Same idea but with UTF-8 characters */
 {UTF8SEQ}\010{UTF8SEQ}\010? {
-        if (yytext[yyleng-1] != '\010') {
+        if (yytext[yyleng - 1] != '\010') {
             char *backspace = index(yytext, '\010');
             if (backspace != NULL) {
-                emitUnicode(decodeUTF8((unsigned char *)backspace+1, (yyleng - (backspace-yytext) - 1)));
+                emitUnicode(decodeUTF8((unsigned char *)backspace + 1, (yyleng - (backspace - yytext) - 1)));
             }
         }
     }
@@ -355,7 +355,7 @@ int main(int argc, char *argv[])
 
     yy_flex_debug = 0;
 
-    /* Keep the same args as cat2rtf, even though -s doesn't really make much difference */
+    /* Keep the same args as cat2rtf, even though -s does not really make much difference */
     while ((c = getopt(argc, argv, "dgGiISs:lH")) != EOF)
     {
         switch( c ) {
@@ -364,8 +364,8 @@ int main(int argc, char *argv[])
                 break;
             case 'g':
             case 'G':
-                startBold = ""; // "<font color=\"#333333\">";
-                stopBold =  ""; // "</font>";
+                startBold = ""; /* "<font color=\"#333333\">"; */
+                stopBold =  ""; /* "</font>"; */
                 break;
             case 'i':
             case 'I':
@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
         }
     }
     
-    if( optind < argc )
+    if (optind < argc)
         yyin = fopen(argv[optind], "r");
     else
         yyin = stdin;
@@ -405,3 +405,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
