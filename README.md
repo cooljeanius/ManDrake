@@ -5,9 +5,12 @@
 
 # ManDrake
 
-ManDrake is a native <a href="https://en.wikipedia.org/wiki/Man_page">man page</a> editor for macOS with features such as syntax highlighting, live <a href="https://en.wikipedia.org/wiki/Mandoc">`mandoc`</a> syntax validation and a live-updating rendered preview of the man page during editing. It can also export man pages as PDF or HTML.
+ManDrake is a native <a href="https://en.wikipedia.org/wiki/Man_page">man page</a> editor for macOS with features such as syntax highlighting, live <a href="https://en.wikipedia.org/wiki/Mandoc">`mandoc`</a> syntax validation and a live-updating rendered preview of the man page during editing.
+It can also export man pages as PDF or HTML.
 
-Long story short, many years ago I was sick of writing man pages in an endless cycle of edit-view, edit-view so I decided to do something about it and created this editor. It's a bit rough around the edges, but it works really well for me. Perhaps it will also be of some use to you.
+To cut a long story short, many years ago I was sick of writing man pages in an endless cycle of edit-view, edit-view, so I decided to do something about it and created this editor.
+It can be a bit rough around the edges, but it works really well for me.
+Perhaps it will also be of some use to you.
 
 * [**⇩ Download ManDrake 3.3**](http://sveinbjorn.org/files/software/mandrake/ManDrake-3.3.zip) (~1.9 MB, Intel 64-bit, 10.8 or later)
 
@@ -19,7 +22,8 @@ man mdoc
 
 or read [this page](http://www.freebsd.org/cgi/man.cgi?query=mdoc.samples).
 
-[ManDrake](https://sveinbjorn.org/mandrake) is free, open source software distributed under a BSD license. If you find it useful, feel free to [make a donation.](https://sveinbjorn.org/donations)
+[ManDrake](https://sveinbjorn.org/mandrake) is free, open source software distributed under a BSD license.
+If you find it useful, feel free to [make a donation.](https://sveinbjorn.org/donations)
 
 ## Screenshots
 
